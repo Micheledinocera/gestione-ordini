@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="generate-code">
-                    <qrcode 
+                    <QRCodeVue3 
                         myclass="qrcode"
                         :value="shareLink"
                         :dotsOptions="DOTS_OPTIONS"
@@ -31,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+import QRCodeVue3 from 'qrcode-vue3'
 const showPanel = useShowPanel();
 const globalOrder =  useGlobalOrder();
 const orderId = useOrderId();
