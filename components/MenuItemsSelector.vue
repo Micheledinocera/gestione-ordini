@@ -1,6 +1,6 @@
 <template>
     <div class="menu-items-selector">
-        <div class="label"> {{ orderType==ORDER_TYPES.newOrder?"Nuovo Ordine":("Ordine n: "+orderId) }} - {{ order.nome!==''?orderTotal:"" }}€</div>
+        <div class="label"> {{ orderType==ORDER_TYPES.newOrder?"Nuovo Ordine":("Ordine n: "+orderId) }} <span v-if="order.nome!==''"> - {{ orderTotal }}€</span> </div>
         <div class="user-input-container">
             <div class="label"> Ordine per: </div>
             <input type="text" placeholder="Aggiungi nome" v-model="order.nome">

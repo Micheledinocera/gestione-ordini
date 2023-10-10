@@ -3,8 +3,11 @@
 
 export const FIRESTORE_DOCUMENTS_URL="https://firestore.googleapis.com/v1/projects/test-34e36/databases/(default)/documents/";
 
-export const getOrderItemsFromCategory=(menuItems:Record<string,ServerMenuItem[]>,category:(Category & {id:string}),order:Order)=>
-  menuItems[category.id].filter(item=>order.prodotti.map(prodotto=>prodotto.id).includes(item.id)) as ServerMenuItem[]
+export const getOrderItemsFromCategory=(menuItems:Record<string,ServerMenuItem[]>,category:(Category & {id:string}),order:Order)=>{
+  if(!menuItems)
+    return []
+  return menuItems[category.id].filter(item=>order.prodotti.map(prodotto=>prodotto.id).includes(item.id)) as ServerMenuItem[]
+}
 
 export const getCategoryTotal=(selectedItems:ServerMenuItem[],category:(Category & {id:string}))=>{
   let valueToReturn=0 as number;
