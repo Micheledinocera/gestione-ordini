@@ -4,7 +4,7 @@
 export const FIRESTORE_DOCUMENTS_URL="https://firestore.googleapis.com/v1/projects/test-34e36/databases/(default)/documents/";
 
 export const getOrderItemsFromCategory=(menuItems:Record<string,ServerMenuItem[]>,category:(Category & {id:string}),order:Order)=>{
-  if(!menuItems)
+  if(!menuItems || !menuItems[category.id])
     return []
   return menuItems[category.id].filter(item=>order.prodotti.map(prodotto=>prodotto.id).includes(item.id)) as ServerMenuItem[]
 }
