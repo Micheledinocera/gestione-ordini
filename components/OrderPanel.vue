@@ -56,17 +56,17 @@ const menuItemsWithCategories=computed(()=>{
 })
 
 const orderFromUser=(user:string)=>{
-    var prodotti=globalOrder.value?.prodotti[user].map(menuItem=>({id:menuItem.id,data:getItemFromId(menuItem)}))
-    console.log(prodotti)
+    // var prodotti=globalOrder.value?.prodotti[user].map(menuItem=>({id:menuItem.id,data:getItemFromId(menuItem)}))
+    var allMenuItems=Object.values(menuItems.value).flat()
+    var prodotti2=globalOrder.value?.prodotti[user].map(menuItem=>({id:menuItem.id,data:allMenuItems.find(item=>item.id==menuItem.id)})).map(item=>item.data)
     return {
         nome:user,
-        prodotti:prodotti as ServerMenuItem[]
+        prodotti:prodotti2 as ServerMenuItem[]
     }
 }
 
 const orderTotal=computed(()=>{
     let valueToReturn=0
-    console.log(menuItems)
     users.value.forEach(user=>{
         valueToReturn+=getOrderTotal(menuItems.value,categories.value,orderFromUser(user))
     })
