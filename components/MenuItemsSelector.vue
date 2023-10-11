@@ -21,29 +21,14 @@
 const order=useOrder();
 const orderType=useOrderType();
 const orderId=useOrderId();
-const categories= useCategories();
-const {getMenuItemsFromCategory}= useMenuItems();
+const {categoriesCollection:categories,orderTotal,menuItems}= await useCategories();
 const {selectOrder,users} = useOrders();
-const menuItems=ref() as Ref<Record<string,ServerMenuItem[]>>
-
-const getMenuItems= async (category:Ref<Category & {id:string}>)=> {
-    const valueToReturn = await getMenuItemsFromCategory(category.value)
-    menuItems.value={...menuItems.value,...{[category.value.id]:valueToReturn}}
-}
-
-categories.value.forEach((category)=>{
-    getMenuItems(ref(category))
-})
 
 const activeCategories=computed(()=>{
     if(menuItems.value)
         return categories.value.filter(category=>menuItems.value[category?.id]?menuItems.value[category.id].length>0:false).sort((a,b)=>a.order-b.order)
     return categories.value
 })
-
-const orderTotal=computed(()=>
-    getOrderTotal(menuItems.value,categories.value,order.value)
-)
 </script>
 
 <style scoped lang="sass">

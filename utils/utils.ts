@@ -21,7 +21,8 @@ export const getCategoryTotal=(selectedItems:ServerMenuItem[],category:(Category
 export const getOrderTotal=(allSelectedItems:Record<string, ServerMenuItem[]>,categories:(Category & {id:string})[],order:Order)=>{
   let valueToReturn=0 as number;
   categories.forEach(category => {
-    valueToReturn+= getCategoryTotal(getOrderItemsFromCategory(allSelectedItems,category,order),category)
+    var orderItems=getOrderItemsFromCategory(allSelectedItems,category,order);
+    valueToReturn+= getCategoryTotal(orderItems,category)
   });
   return valueToReturn
 }

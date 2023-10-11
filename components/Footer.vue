@@ -8,20 +8,9 @@
 <script setup lang="ts">
 const { createOrder,updateOrder,users } =useOrders();
 const order=useOrder();
-const {getMenuItemsFromCategory}= useMenuItems();
 const showPanel=useShowPanel();
 const orderType=useOrderType();
-const categories= useCategories();
-const menuItems=ref() as Ref<Record<string,ServerMenuItem[]>>
-
-const getMenuItems= async (category:Ref<Category & {id:string}>)=> {
-    const valueToReturn = await getMenuItemsFromCategory(category.value)
-    menuItems.value={...menuItems.value,...{[category.value.id]:valueToReturn}}
-}
-
-categories.value.forEach((category)=>{
-    getMenuItems(ref(category))
-})
+const {categoriesCollection:categories,menuItems}= await useCategories();
 
 const orderHandler=()=>{
     if(orderType.value==ORDER_TYPES.newOrder)

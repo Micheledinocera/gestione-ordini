@@ -24,7 +24,7 @@ export const useMenuItems = () => {
     const getMenuItemsFromCategory= async (category:Category & {id:string}) => {
         const categoryRef=doc(db,CATEGORIES_TABLE_NAME,category.id)
         const querySnap = await getDocs(query(collection(db, MENU_ITEMS_TABLE_NAME), where('category','==',categoryRef)))
-        // const querySnap = useCollection(query(collection(db, MENU_ITEMS_TABLE_NAME), where('category','==',categoryRef)))
+        // const querySnap = await useCollection(query(collection(db, MENU_ITEMS_TABLE_NAME), where('category','==',categoryRef)))
         let menuItems=[] as ServerMenuItem[]
         querySnap.forEach((doc) => {
             menuItems.push({id:doc.id,data:doc.data() as MenuItem})

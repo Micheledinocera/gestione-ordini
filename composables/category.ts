@@ -15,6 +15,10 @@ export const CATEGORIES_URL=FIRESTORE_DOCUMENTS_URL+CATEGORIES_TABLE_NAME
 
 export const useCategories = () => {
     const db=useFirestore();
+    const order=useOrder();
+    const orderTotal=ref(0);
+    const {getMenuItemsFromCategory}= useMenuItems();
+    const menuItems=ref() as Ref<Record<string,ServerMenuItem[]>>
     const collectionRef=collection(db,CATEGORIES_TABLE_NAME);
     const categoriesCollection = useCollection<Category>(collectionRef);
 
@@ -37,5 +41,25 @@ export const useCategories = () => {
         updateDoc(docRef,itemToAdd)
     }
 
-    return categoriesCollection
+    const menuItemsWithCategories=computed(async ()=>{
+        var promisesArray=categoriesCollection.value.map(async category =>{
+            const valueToReturn = await getMenuItemsFromCategory(ref(category).value)
+            return {[ref(category).value.id]:valueToReturn}
+        }) 
+        var tempMenuItems={} as Record<string,ServerMenuItem[]>
+        (await Promise.all(promisesArray)).forEach(menuItem=>{
+            tempMenuItems={...tempMenuItems,...menuItem}
+        })
+        return tempMenuItems
+    })
+
+    menuItemsWithCategories.value.then((response)=>{
+        menuItems.value=response
+    })
+
+    watch(order,()=>{
+        orderTotal.value=getOrderTotal(menuItems.value,categoriesCollection.value,order.value)
+    },{deep:true})
+
+    return {categoriesCollection,menuItemsWithCategories,orderTotal,menuItems}
 }

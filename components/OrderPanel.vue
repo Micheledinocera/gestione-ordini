@@ -1,7 +1,7 @@
 <template>
     <div :class="['panel-overlay',{show:showPanel}]" @click="()=>showPanel=false">
         <div class="panel-container" @click.stop="">
-            <div class="order-id"> Ordine n:{{ orderId }} - {{ orderTotal }}€ </div>
+            <div class="order-id"> Ordine n: {{ orderId }} - {{ orderTotal }}€ </div>
             <NuxtScrollbar v-if="showPanel">
                 <div class="orders-container">
                     <div class="order-item" v-for="user in users" :key="'user_'+user">
@@ -36,18 +36,7 @@ const showPanel = useShowPanel();
 const globalOrder =  useGlobalOrder();
 const orderId = useOrderId();
 const {deleteOrder,getItemFromId,selectOrder,users} = useOrders();
-const {getMenuItemsFromCategory}= useMenuItems();
-const menuItems=ref() as Ref<Record<string,ServerMenuItem[]>>
-const categories= useCategories();
-
-const getMenuItems= async (category:Ref<Category & {id:string}>)=> {
-    const valueToReturn = await getMenuItemsFromCategory(category.value)
-    menuItems.value={...menuItems.value,...{[category.value.id]:valueToReturn}}
-}
-
-categories.value.forEach((category)=>{
-    getMenuItems(ref(category))
-})
+const {categoriesCollection:categories,menuItems}= await useCategories();
 
 const shareLink=computed(()=> location.origin+location.pathname+"?code="+orderId.value)
 
