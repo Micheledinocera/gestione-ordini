@@ -59,6 +59,9 @@ export const useCategories = () => {
 
     watch(order,()=>{
         orderTotal.value=getOrderTotal(menuItems.value,categoriesCollection.value,order.value)
+        menuItemsWithCategories.value.then((response)=>{
+            menuItems.value=response
+        })
     },{deep:true})
 
     return {categoriesCollection,menuItemsWithCategories,orderTotal,menuItems}

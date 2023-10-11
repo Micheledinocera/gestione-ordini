@@ -42,7 +42,6 @@ const shareLink=computed(()=> location.origin+location.pathname+"?code="+orderId
 
 const menuItemsWithCategories=computed(()=>{
     let valueToReturn={} as any;
-
     users.value.forEach(user=>{
         valueToReturn[user]={}
         categories.value.forEach(category=>{
@@ -58,6 +57,7 @@ const menuItemsWithCategories=computed(()=>{
 
 const orderFromUser=(user:string)=>{
     var prodotti=globalOrder.value?.prodotti[user].map(menuItem=>({id:menuItem.id,data:getItemFromId(menuItem)}))
+    console.log(prodotti)
     return {
         nome:user,
         prodotti:prodotti as ServerMenuItem[]
@@ -66,6 +66,7 @@ const orderFromUser=(user:string)=>{
 
 const orderTotal=computed(()=>{
     let valueToReturn=0
+    console.log(menuItems)
     users.value.forEach(user=>{
         valueToReturn+=getOrderTotal(menuItems.value,categories.value,orderFromUser(user))
     })
