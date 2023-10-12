@@ -57,12 +57,18 @@ export const useCategories = () => {
         menuItems.value=response
     })
 
-    watch(order,()=>{
+    const activeCategories=computed(()=>{
+        if(menuItems.value)
+            return categoriesCollection.value.filter(category=>menuItems.value[category?.id]?menuItems.value[category.id].length>0:false).sort((a,b)=>a.order-b.order)
+        return categoriesCollection.value
+    })
+
+    watch([order,orderTotal],()=>{
         orderTotal.value=getOrderTotal(menuItems.value,categoriesCollection.value,order.value)
         menuItemsWithCategories.value.then((response)=>{
             menuItems.value=response
         })
     },{deep:true})
 
-    return {categoriesCollection,menuItemsWithCategories,orderTotal,menuItems}
+    return {categoriesCollection,menuItemsWithCategories,orderTotal,menuItems,activeCategories}
 }

@@ -11,8 +11,8 @@
                             <div class="icon delete" @click="()=>deleteOrder(user)"></div>
                         </div>
                         <div class="menu-item" v-for="category in Object.keys(menuItemsWithCategories[user])" :key="'menuItemPanel_'+category"> 
-                            <div class="category"> {{menuItemsWithCategories[user][category].category}} </div>
-                            <div class="items"> <div class="item" v-for="item in menuItemsWithCategories[user][category].items"> {{item?.label}}</div> </div>
+                            <div class="category"> {{menuItemsWithCategories[user][category][0]?.categoryLabel}} </div>
+                            <div class="items"> <div class="item" v-for="categoryMenuItem in menuItemsWithCategories[user][category]"> {{categoryMenuItem?.data.label}}</div> </div>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ const showPanel = useShowPanel();
 const globalOrder =  useGlobalOrder();
 const orderId = useOrderId();
 const {deleteOrder,getItemFromId,selectOrder,users} = useOrders();
-const {categoriesCollection:categories,menuItems}= await useCategories();
+const {categoriesCollection:categories,menuItems,activeCategories}= await useCategories();
 
 const shareLink=computed(()=> location.origin+location.pathname+"?code="+orderId.value)
 
@@ -44,14 +44,19 @@ const menuItemsWithCategories=computed(()=>{
     let valueToReturn={} as any;
     users.value.forEach(user=>{
         valueToReturn[user]={}
-        categories.value.forEach(category=>{
-            var items=getItemsFromCategory(user,category.id)
-            if(items.length>0){
-                valueToReturn[user][category.id]={category:category.value,items:items}
+        activeCategories.value.forEach(category=>{
+            // var items=getItemsFromCategory(user,category.id)
+            // if(items.length>0){
+            //     valueToReturn[user][category.id]={category:category.value,items:items}
+            // }
+            var valueToAdd=getOrderItemsFromCategory(menuItems.value,category,orderFromUser(user));
+            if(valueToAdd.length>0) {
+                valueToReturn[user][category.id]=valueToAdd
+                valueToReturn[user][category.id][0].categoryLabel=category.value
             }
+            // if(valueToReturn[user][category.id][0])
         })
     })
-    
     return valueToReturn
 })
 

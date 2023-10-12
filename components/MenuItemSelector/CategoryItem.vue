@@ -7,8 +7,8 @@
                 <div class="max" v-if="category?.max"> /{{ category?.max }}</div>
             </div>
         </div>
-        <div class="menu-items-container">
-            <div :class="['menu-item',{selected:orderProdottiRef.includes(menuItem.id),inactive:selectedItems.length==category?.max}]" v-for="menuItem in menuItems?menuItems[category.id]:[]" :key="'menuItem_'+menuItem.id" @click="()=>addToOrder(menuItem)">
+        <div :class="['menu-items-container',{inactive:selectedItems.length==category?.max}]">
+            <div :class="['menu-item',{selected:orderProdottiRef.includes(menuItem.id)}]" v-for="menuItem in menuItems?menuItems[category.id]:[]" :key="'menuItem_'+menuItem.id" @click="()=>addToOrder(menuItem)">
                 <div class="label"> {{ menuItem.data.label+(menuItem.data.isGift?" - gratuita":"") }} </div>
                 <div class="price" v-if="menuItem.data.price"> {{ menuItem.data.price }}€ </div>
             </div>
@@ -74,23 +74,24 @@ const categoryTotal=computed(()=>
             padding: 6px
             margin-left: auto
             margin-right: 6px
-    .menu-item
-        cursor: pointer
-        padding: 2px 6px
-        display: flex
-        .price
-            width: 42px
-            text-align: right
-            margin-left: auto
-        &.inactive
+    .menu-items-container
+        &.inactive .menu-item
             opacity: 0.5
             pointer-events: none
-        &.selected
-            color: $primary-color
-            opacity: 1
-            pointer-events: auto
-    @media (max-width: $breakpoint-tablet)
-        width: calc(33% - 24px)
-    @media (max-width: $breakpoint-mobile)
-        width: calc(50% - 24px)
+        .menu-item
+            cursor: pointer
+            padding: 2px 6px
+            display: flex
+            .price
+                width: 42px
+                text-align: right
+                margin-left: auto
+            &.selected
+                color: $primary-color
+                opacity: 1
+                pointer-events: auto
+        @media (max-width: $breakpoint-tablet)
+            width: calc(33% - 24px)
+        @media (max-width: $breakpoint-mobile)
+            width: calc(50% - 24px)
 </style>

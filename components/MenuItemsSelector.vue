@@ -21,14 +21,14 @@
 const order=useOrder();
 const orderType=useOrderType();
 const orderId=useOrderId();
-const {categoriesCollection:categories,orderTotal,menuItems}= await useCategories();
+const {categoriesCollection:categories,orderTotal,menuItems,activeCategories}= await useCategories();
 const {selectOrder,users} = useOrders();
 
-const activeCategories=computed(()=>{
-    if(menuItems.value)
-        return categories.value.filter(category=>menuItems.value[category?.id]?menuItems.value[category.id].length>0:false).sort((a,b)=>a.order-b.order)
-    return categories.value
-})
+// const activeCategories=computed(()=>{
+//     if(menuItems.value)
+//         return categories.value.filter(category=>menuItems.value[category?.id]?menuItems.value[category.id].length>0:false).sort((a,b)=>a.order-b.order)
+//     return categories.value
+// })
 </script>
 
 <style scoped lang="sass">
