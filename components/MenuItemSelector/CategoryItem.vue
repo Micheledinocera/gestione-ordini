@@ -30,11 +30,9 @@ const orderProdottiRef=computed(()=> {
 })
 
 const addToOrder=(menuItem:ServerMenuItem)=>{
-    let arrayToReturn = order.value.prodotti;
     const orderIndex=orderProdottiRef.value.indexOf(menuItem.id)
-    if(orderIndex!=-1) arrayToReturn.splice(orderIndex,1)
-    else arrayToReturn.push(menuItem)
-    order.value.prodotti=arrayToReturn
+    if(orderIndex!=-1) order.value.prodotti.splice(orderIndex,1)
+    else order.value.prodotti.push(menuItem)
 }
 
 const selectedItems=computed(()=>
@@ -90,8 +88,8 @@ const categoryTotal=computed(()=>
                 color: $primary-color
                 opacity: 1
                 pointer-events: auto
-        @media (max-width: $breakpoint-tablet)
-            width: calc(33% - 24px)
-        @media (max-width: $breakpoint-mobile)
-            width: calc(50% - 24px)
+    @media (max-width: $breakpoint-tablet)
+        width: calc(33% - 24px)
+    @media (max-width: $breakpoint-mobile)
+        width: calc(50% - 24px)
 </style>

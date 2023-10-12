@@ -45,23 +45,17 @@ const menuItemsWithCategories=computed(()=>{
     users.value.forEach(user=>{
         valueToReturn[user]={}
         activeCategories.value.forEach(category=>{
-            // var items=getItemsFromCategory(user,category.id)
-            // if(items.length>0){
-            //     valueToReturn[user][category.id]={category:category.value,items:items}
-            // }
             var valueToAdd=getOrderItemsFromCategory(menuItems.value,category,orderFromUser(user));
             if(valueToAdd.length>0) {
                 valueToReturn[user][category.id]=valueToAdd
                 valueToReturn[user][category.id][0].categoryLabel=category.value
             }
-            // if(valueToReturn[user][category.id][0])
         })
     })
     return valueToReturn
 })
 
 const orderFromUser=(user:string)=>{
-    // var prodotti=globalOrder.value?.prodotti[user].map(menuItem=>({id:menuItem.id,data:getItemFromId(menuItem)}))
     var allMenuItems=Object.values(menuItems.value).flat()
     var prodotti2=globalOrder.value?.prodotti[user].map(menuItem=>({id:menuItem.id,data:allMenuItems.find(item=>item.id==menuItem.id)})).map(item=>item.data)
     return {

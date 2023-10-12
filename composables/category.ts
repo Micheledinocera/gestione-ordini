@@ -16,6 +16,7 @@ export const CATEGORIES_URL=FIRESTORE_DOCUMENTS_URL+CATEGORIES_TABLE_NAME
 export const useCategories = () => {
     const db=useFirestore();
     const order=useOrder();
+    const globalOrder=useGlobalOrder();
     const orderTotal=ref(0);
     const {getMenuItemsFromCategory}= useMenuItems();
     const menuItems=ref() as Ref<Record<string,ServerMenuItem[]>>
@@ -63,7 +64,7 @@ export const useCategories = () => {
         return categoriesCollection.value
     })
 
-    watch([order,orderTotal],()=>{
+    watch([order,globalOrder],()=>{
         orderTotal.value=getOrderTotal(menuItems.value,categoriesCollection.value,order.value)
         menuItemsWithCategories.value.then((response)=>{
             menuItems.value=response
