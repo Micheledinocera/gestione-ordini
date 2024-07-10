@@ -1,3 +1,7 @@
+# Project Deploy
+
+The project is deployed with github pages at https://micheledinocera.github.io/gestione-ordini/
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
